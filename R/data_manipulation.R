@@ -4,8 +4,6 @@
 ###
 ################################################################################
 
-
-
 ##' Create SAS FIRST. and LAST. variables
 ##'
 ##' Mimics the automatic DATA step variables 'FIRST.' and
@@ -31,7 +29,7 @@
 ##' x <- expand.grid(col = c("red", "green", "blue"), number = 1:4)
 ##' first_last(x$number)
 ##' @export
-first_last <- function(x, result = c("both", "first", "last"), add = FALSE) {
+first_last <- function(x, result = c("both", "first", "last"), add = FALSE, ...) {
     result <- match.arg(result)
     z <- c(TRUE, x[-1] != x[-length(x)])
     if (identical(result, "first")) out <- z

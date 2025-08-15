@@ -101,13 +101,10 @@ makeCICols <- function(x, cols,
 
 ##' Augment 2x2 tables with margins and proportions.
 ##'
-##' Simple function that adds rows and columns to an existing 2x2
-##' table with totals and proportions.
-##'
-##' Currently, only the proportion of the total is supported but this
-##' could easily be extended to row and column totals.
-##'
-##' Tables will need to be formatted for printing, e.g., with
+##' Simple function that adds rows and columns to an existing 2x2 table with
+##' totals and proportions. Currently, only the proportion of the total is
+##' supported but this could easily be extended to row and column totals. Tables
+##' will need to be formatted for printing, e.g., with
 ##' \code{\link[knitr]{kable}}.
 ##'
 ##' @details
@@ -119,8 +116,6 @@ makeCICols <- function(x, cols,
 ##' Putting proportions in parentheses with \code{prop_in_paren} will
 ##' cause the output to be a \code{matrix} with character valued
 ##' elements.
-##'
-##' @section Last Updated: 2022-12-14
 ##'
 ##' @param x A 2x2 \code{\link{table}}.
 ##' @param add_margins Logical; add table margins?
@@ -143,6 +138,7 @@ makeCICols <- function(x, cols,
 ##'     package, and package \pkg{kableExtra}. Especially see
 ##'     \code{\link[summarytools]{ctable}} in package
 ##'     \pkg{summarytools}.
+##' @export
 contingency_table <- function(x, add_margins = TRUE, add_prop = TRUE,
                               digits = list(count = getOption("digits"),
                                             prop = getOption("digits")),
@@ -171,7 +167,7 @@ contingency_table <- function(x, add_margins = TRUE, add_prop = TRUE,
         if (add_margins) x_prop <- addmargins(x_prop)
         if (identical(length(digits$prop), 1L)) {
             x_prop <- round(x_prop, digits = digits$prop)
-        } else {
+         } else {
             stopifnot(identical(length(digits$prop), ncol(x_prop)))
             for (j in 1:ncol(x_prop)) {
                 x_prop[, j] <- round(x_prop[, j], digits$prop[j])
@@ -220,24 +216,23 @@ contingency_table <- function(x, add_margins = TRUE, add_prop = TRUE,
 }
 
 
-#' Create a table from an \code{ftable} object using \code{kbl}
-#'
-#' Formats an \code{\link{ftable}} object and applies
-#' \code{\link[kableExtra]{kbl}} with some sensible
-#' options. Additional styling can be done on the result by piping into
-#' \pkg{kableExtra} functions.
-#'
-#' If you wish to provide a customized text matrix, e.g., you have
-#' applied \code{\link{format.ftable}} and made some alterations, set
-#' \code{format} to \code{FALSE}.
+##' Create a table from an \code{ftable} object using \code{kbl}
 ##'
-##' @section Last Updated: 2022-12-14
-#'
-#' @param x An \code{ftable} object, or a text matrix or data frame.
-#' @param digits Number of numeric digits to keep.
-#' @param bold_row.vars Logical; should the column of \code{row.vars} be emboldened?
-#' @return The result of appling \code{\link[kableExtra]{kbl}}.
-#' @author Mark Wheldon
+##' Formats an \code{\link{ftable}} object and applies
+##' \code{\link[kableExtra]{kbl}} with some sensible
+##' options. Additional styling can be done on the result by piping into
+##' \pkg{kableExtra} functions.
+##'
+##' If you wish to provide a customized text matrix, e.g., you have
+##' applied \code{\link{format.ftable}} and made some alterations, set
+##' \code{format} to \code{FALSE}.
+##'
+##' @param x An \code{ftable} object, or a text matrix or data frame.
+##' @param digits Number of numeric digits to keep.
+##' @param bold_row.vars Logical; should the column of \code{row.vars} be emboldened?
+##' @return The result of appling \code{\link[kableExtra]{kbl}}.
+##' @author Mark Wheldon
+##' @export
 kbl_ftable <- function(x, digits = 2, bold_row.vars = FALSE) {
     stopifnot(inherits(x, "ftable"))
     stopifnot(identical(length(attr(x, "row.vars")), 2L))
@@ -247,9 +242,8 @@ kbl_ftable <- function(x, digits = 2, bold_row.vars = FALSE) {
     col_headers <- x[1,]
     x <- as.data.frame(x[-1, -3])
     colnames(x) <- col_headers[-3]
-    x <- kableExtra::kbl(x, position = "hbpt")
+    x <- kableExtra::kbl(x, position = "bpht")
     x <- kableExtra::add_header_above(x, setNames(c(2, 2), c(" ", col_headers[3])))
     if (bold_row.vars) x <- kableExtra::column_spec(x, 1:2, bold = TRUE)
     return(x)
 }
-
