@@ -26,7 +26,7 @@ makeFileName <- function(x, safe = "_", disallowed = "/|\\*|<|\\\\|>|:|\\||\\?|\
 ##' Formats decimal numbers 'prettily'
 ##'
 ##' @param z Number to be fomatted
-##' @param d Number of digits to print.
+##' @param digits Number of digits to print.
 ##' @param bm \dQuote{\code{big.mark}}.
 ##' @param to_text Logical; convert numbers below 10 to text.
 ##' @param capitalize If \code{to_text} is \code{TRUE}, should it be capitalized?
@@ -34,13 +34,13 @@ makeFileName <- function(x, safe = "_", disallowed = "/|\\*|<|\\\\|>|:|\\||\\?|\
 ##' @return Text string containing formatted number.
 ##' @author Mark Wheldon
 ##' @export
-pn <- function(z, d = 2, bm = ",", to_text = FALSE, capitalize = FALSE) {
+pn <- function(z, digits = 2, bm = ",", to_text = FALSE, capitalize = FALSE) {
     if(length(z) > 1) {
-        sapply(z, "pn", d = d, bm = bm, to_text = to_text, capitalize = capitalize)
+        sapply(z, "pn", digits = digits, bm = bm, to_text = to_text, capitalize = capitalize)
     } else {
-        y <- formatC(z, digits = d, big.mark = bm)
+        y <- formatC(z, digits = digits, big.mark = bm)
         if (grepl(pattern = "e\\+", x = y)) {
-            out <- pn(z, d = d + 1, bm = bm, to_text = to_text, capitalize = capitalize)
+            out <- pn(z, digits = digits + 1, bm = bm, to_text = to_text, capitalize = capitalize)
         } else if (grepl(pattern = "e\\-", x = y)) {
             e.part <-
                 as.numeric(sapply(strsplit(y, "e\\-"), "[[", 2))
