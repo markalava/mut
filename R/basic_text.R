@@ -26,19 +26,26 @@ makeFileName <- function(x, safe = "_", disallowed = "/|\\*|<|\\\\|>|:|\\||\\?|\
 ##' Formats decimal numbers 'prettily'
 ##'
 ##' @param z Number to be fomatted
-##' @param digits Number of digits to print.
+##' @param d Number of digits to print; \emph{not} (necessarily) the number of decimal places.
 ##' @param bm \dQuote{\code{big.mark}}.
+##' @param keep_trailing_zeros Logical; keep trailing zeros after formatting?
 ##' @param to_text Logical; convert numbers below 10 to text.
 ##' @param capitalize If \code{to_text} is \code{TRUE}, should it be capitalized?
 ##'
 ##' @return Text string containing formatted number.
 ##' @author Mark Wheldon
-##' @export
-pn <- function(z, digits = 2, bm = ",", to_text = FALSE, capitalize = FALSE) {
+##'
+##' @family Manuscript helper functions
+##'
+##' @noRd
+pn <- function(z, digits = 2, bm = ",", keep_trailing_zeros = FALSE, to_text = FALSE, capitalize = FALSE) {
+    if (keep_trailing_zeros) flag <- "#"
+    else flag <- ""
+
     if(length(z) > 1) {
         sapply(z, "pn", digits = digits, bm = bm, to_text = to_text, capitalize = capitalize)
     } else {
-        y <- formatC(z, digits = digits, big.mark = bm)
+        y <- formatC(z, digits = digits, big.mark = bm, flag = flag)
         if (grepl(pattern = "e\\+", x = y)) {
             out <- pn(z, digits = digits + 1, bm = bm, to_text = to_text, capitalize = capitalize)
         } else if (grepl(pattern = "e\\-", x = y)) {
