@@ -37,7 +37,7 @@ makeFileName <- function(x, safe = "_", disallowed = "/|\\*|<|\\\\|>|:|\\||\\?|\
 ##'
 ##' @family Manuscript helper functions
 ##'
-##' @noRd
+##' @export
 pn <- function(z, digits = 2, bm = ",", keep_trailing_zeros = FALSE, to_text = FALSE, capitalize = FALSE) {
     if (keep_trailing_zeros) flag <- "#"
     else flag <- ""
